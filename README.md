@@ -36,3 +36,4 @@ For more example apps, see the
 created by the awesome electron community.
 
 #### License [CC0 (Public Domain)](LICENSE.md)
+# newman-electron
