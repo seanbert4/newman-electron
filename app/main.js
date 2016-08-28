@@ -12,11 +12,11 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1200,
-    height: 1080,
-    minWidth: 1200,
-    'node-integration': false,
-    'web-security': false,
-    icon: __dirname + 'assets/icon/desktopapp.png'
+    height: 1080
+    // minWidth: 1200,
+    // 'node-integration': false,
+    // 'web-security': false,
+    // icon: __dirname + 'assets/icon/desktopapp.png'
   });
 
   // and load the index.html of the app.

@@ -1,0 +1,49 @@
+
+  <div layout="column">
+
+      <md-card>
+
+        <md-toolbar class="md-table-toolbar md-default">
+          <div class="md-toolbar-tools">
+            <span class="md-title" ng-show="!selected.length">All Tests</span>
+            <span ng-show="selected.length">{{selected.length}} {{selected.length > 1 ? 'tests' : 'test'}} selected</span>
+            <div flex></div>
+            <md-button class="md-icon-button" ng-click="showConfirm()" ng-show="selected.length"> <!--ng-click="deletetests()" -->
+              <md-icon>delete</md-icon>
+            </md-button>
+          </div>
+        </md-toolbar>
+
+        <md-table-container>
+          <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
+            <thead ng-if="!options.decapitate" md-head md-order="query.order">
+              <tr md-row>
+                <th md-column md-order-by="name"><span>Name</span></th>
+                <th md-column md-order-by="stack"></span>Sequence</span></th>
+                <th md-column md-order-by="method"><span>Method</span></th>
+                <th md-column md-order-by="url"><span>URL</span></th>
+                <th md-column md-order-by="body.result"><span>Status</span></th>
+                <th md-column>
+                  <md-icon>info</md-icon>
+                  <span>Details</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody md-body>
+              <tr md-row md-select="test" md-auto-select="options.autoSelect" ng-repeat="test in tests | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                <td md-cell>{{test.name || "Untitled"}}</td>
+                <td md-cell>{{test.stack.name}}</td>
+                <td md-cell>{{test.method}}</td>
+                <td md-cell>{{test.url}}</td>
+                <td md-cell>{{test.body.result}}</td>
+                <td md-cell>
+                  <md-button class="md-small md-primary md-raised md-hue-3 stackbutton" ui-sref="testeditor({testId: test._id})">details</md-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </md-table-container>
+
+        <md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{tests.count}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks"></md-table-pagination>
+      </md-card>
+  </div>

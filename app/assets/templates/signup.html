@@ -1,0 +1,50 @@
+<div layout="row" layout-align="center center">
+    <span flex></span>
+    <a ui-sref="login"><img src="assets/icon/logo.png" class="signupimage"></img></a>
+    <span flex></span>
+</div>
+<div class='inner'>
+    <div layout="column" layout-align="top center" layout-fill>
+        <form class="loginBox md-whiteframe-2dp" name="signupForm" layout="column" ng-submit="signupForm.$valid && createUser(signup)">
+            <md-toolbar class="md-accent">
+                <h2 class="md-toolbar-tools">Sign Up</h2>
+            </md-toolbar>
+            <md-content class="md-padding" layout="column">
+                <md-input-container>
+                    <label>Email Address</label>
+                    <input name="email" ng-model="signup.email" ng-pattern="/^.+@.+\..+$/" required>
+                    <div ng-messages="signupForm.email.$error">
+                        <div ng-message="required">Email is required.</div>
+                        <div ng-message="pattern">This must be a valid e-mail address.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Phone</label>
+                    <input name="userPhone" ng-model="signup.phonenum"  ng-pattern="/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/">
+                    <div ng-messages="signupForm.userPhone.$error">
+                        <div ng-message="pattern">This must be a valid phone number (###-###-####).</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Password</label>
+                    <input name="passwordA" type="password" ng-model="signup.passwordA" required>
+                    <div ng-messages="signupForm.passwordA.$error">
+                        <div ng-message="required">Password is required.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Re-enter your password</label>
+                    <input name="passwordB" type="password" ng-model="signup.passwordB" required>
+                    <div ng-messages="signupForm.passwordB.$error">
+                        <div ng-message="required">Please re-enter your password.</div>
+                    </div>
+                </md-input-container>
+                <div layout="row" layout-align="center center" style="padding-top:20px;">
+                    <md-button class="md-raised md-primary" type="submit" ng-disabled="signupForm.$invalid">Sign Up</md-button>
+                </div>
+            </md-content>
+        </form>
+        <br>
+        <alert type="danger" ng-show="error">{{ error }}</alert>
+    </div>
+</div>

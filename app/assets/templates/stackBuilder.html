@@ -1,0 +1,61 @@
+<section id="stackcreator">
+    <div class='inner'>
+        <div class="md-whiteframe-2dp">
+            <md-toolbar class="md-primary md-hue-1">
+                <div class="md-toolbar-tools ">
+                    <span>Create a Sequence</span>
+                </div>
+            </md-toolbar>
+            <md-content layout-padding>
+                <div layout="column" ng-cloak class="md-inline-form">
+                    <form name="stackForm">
+                        <md-content layout-padding>
+                            <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                <label>Sequence Name</label>
+                                    <input name="name" ng-model="stack.name" md-minlength='1' md-maxlength='20'required>
+                                    <div ng-messages="stackForm.name.$error">
+                                        <div ng-message="required">Sequence name is required.</div>
+                                        <div ng-message='md-maxlength'>Sequence name must be 20 or fewer characters</div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                        <div layout-gt-sm="row">
+                            <div layout-gt-sm="column">
+                                <h4>Tests available for your sequence</h4>
+                                <span ng-repeat='test in tests'>
+                                <md-button class="btn btn-xs opacityhover" ng-click="addToStack(test)" ng-disabled="stack.tests.indexOf(test) !== -1 || stack.tests.length > 9"><md-icon class="material-icons">add</md-icon>{{test.name}} |  {{test.method}} |  {{test.url}}</md-button>
+                                </span>
+                            </div>
+                            <span flex></span>
+                            <div layout-gt-sm="column">
+                                <h4 ng-show="stack.tests.length">Tests in your sequence</h4>
+                                <span ng-repeat='test in stack.tests'>
+                                    <md-button class="btn btn-xs opacityhover" ng-click="removeFromStack(test)"><md-icon class="material-icons">delete</md-icon> {{test.name}}</md-button>
+                                </span>
+                            </div>
+                        </div>
+                            <div class="row text-center">
+                                <md-toolbar class="whitetext" ng-show="stack.tests.length > 1" layout="row" layout-align="center center">Drag tests into the desired order</md-toolbar>
+                                <ul class="draglist">
+                                    <li ng-repeat="test in stack.tests" ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
+                                        <div ng-drag="true" ng-drag-data="test" ng-class="test.name">
+                                            {{test.name}}
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        <div layout-gt-sm="row">
+                            <h4><strong>{{stack.tests.length}}</strong> tests currently in sequence</h4>
+                            <span flex></span>
+                            <md-button type="submit" class="md-raised md-accent stackbutton" ng-click="intermediary()" ng-disabled="!stack.name">Save Sequence</md-button>
+                        </div>
+                        </md-content>
+                    </form>
+                </div>
+            </div>
+        </md-content>
+        <md-progress-linear class="md-accent" ng-show="toggle" md-mode="query"></md-progress-linear>
+    </div>
+</div>
+</section>
