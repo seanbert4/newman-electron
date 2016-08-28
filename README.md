@@ -1,6 +1,7 @@
 # Newman Electron App
 
 ## Running the app locally 
-1. git clone, cd into the directory, and then cd into /app.
-2. npm install and bower install
-3. npm start
+1. git clone
+2. cd into newman-electron/app
+3. npm install and bower install
+4. npm start
