@@ -1,0 +1,19 @@
+{
+  "name": "newman",
+  "version": "0.1.0",
+  "description": "api route tester",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seanbert4/newman-electron.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/seanbert4/newman-electron/issues"
+  },
+  "homepage": "https://github.com/seanbert4/newman-electron#readme"
+}
