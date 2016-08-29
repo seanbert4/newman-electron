@@ -135,7 +135,6 @@ app.run(function ($rootScope, AuthService, $state, $location) {
         event.preventDefault();
 
         AuthService.getLoggedInUser().then(function (user) {
-            console.log('user inside the $stateChangeStart event: ', user);
             // If a user is retrieved, then renavigate to the destination
             // (the second time, AuthService.isAuthenticated() will work)
             // otherwise, if no user is logged in, go to "login" state.
@@ -221,7 +220,6 @@ app.controller('allTestsCtrl', function ($log, $mdEditDialog, $mdDialog, $q, $st
             return TestBuilderFactory.delete(test);
         });
         return Promise.all(deletePromises).then(function (val) {
-            console.log(val);
             $scope.getTests();
         });
     };
@@ -306,7 +304,6 @@ app.controller('TestEditorCtrl', function ($scope, test, TestBuilderFactory, $ro
             $scope.numParams++;
         }
         $scope.showParams = !$scope.showParams;
-        console.log($scope.test.params);
     };
 
     $scope.displayHeaders = function () {
@@ -359,11 +356,9 @@ app.controller('TestEditorCtrl', function ($scope, test, TestBuilderFactory, $ro
     $scope.saveTest = function () {
         var currentDate = new Date();
         var time = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
-        console.log("before TestBuilderFactory.create", time);
         TestBuilderFactory.edit($scope.test).then(function () {
             currentDate = new Date();
             var time = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
-            console.log("going to new state", time);
             $state.go('allTests');
         }).catch($log.error);
     };
@@ -450,9 +445,7 @@ app.controller('TestEditorCtrl', function ($scope, test, TestBuilderFactory, $ro
         $scope.test = $mdDialog.test;
         if (typeof $scope.test.validators === 'string') {
             $scope.test.validators = JSON.parse($scope.test.validators);
-            console.log("MODIFIED DIALOG TESTS", $scope.test.validators);
         }
-        console.log("DIALOG TESTS", $scope.test);
         $scope.results = $mdDialog.results;
         $scope.hide = function () {
             $mdDialog.hide();
@@ -1391,15 +1384,8 @@ app.controller('TestbuilderCtrl', function ($scope, $state, TestBuilderFactory, 
     };
 
     $scope.saveTest = function () {
-        //$scope.test.url = $scope.test.url;
         $scope.test.created = true;
-        // var currentDate = new Date();
-        // var time = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds()
-        // console.log("before TestBuilderFactory.create", time);
         TestBuilderFactory.create($scope.test).then(function () {
-            // currentDate = new Date();
-            // time = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
-            // console.log("going to new state", time);
             $state.go('allTests');
         }).catch($log.error);
     };
