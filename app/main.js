@@ -13,17 +13,10 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 1080
-    // minWidth: 1200,
-    // 'node-integration': false,
-    // 'web-security': false,
-    // icon: __dirname + 'assets/icon/desktopapp.png'
   });
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`);
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
