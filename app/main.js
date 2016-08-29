@@ -3,12 +3,19 @@ const electron = require('electron');
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
+// Module to create dock icon.
+const nativeImage = electron.nativeImage;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 function createWindow () {
+
+  // Set the dock icon
+  let icon = nativeImage.createFromPath(`./assets/icon/desktopapp.png`);
+  app.dock.setIcon(icon);
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1200,
