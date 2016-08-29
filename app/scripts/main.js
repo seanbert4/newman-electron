@@ -95,6 +95,10 @@ app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) 
     }).accentPalette('customAccent').warnPalette('customWarn').backgroundPalette('customBackground');
 });
 
+app.config(function ($sceDelegateProvider) {
+  $sceDelegateProvider.resourceUrlWhitelist(['**']);
+});
+
 // This app.run is for controlling access to specific states.
 app.run(function ($rootScope, AuthService, $state, $location) {
     $rootScope.assetsPath = process.cwd() + '/assets';
@@ -149,7 +153,7 @@ app.run(function ($rootScope, AuthService, $state, $location) {
 app.config(function ($stateProvider) {
     $stateProvider.state('allTests', {
         url: '/allTests',
-        templateUrl: process.cwd() +  '/assets/templates/allTests.html',
+        templateUrl: './assets/templates/allTests.html',
         controller: 'allTestsCtrl',
         resolve: {
             allTests: function allTests($http, $stateParams, AuthService) {
@@ -244,7 +248,7 @@ app.controller('allTestsCtrl', function ($log, $mdEditDialog, $mdDialog, $q, $st
 app.config(function ($stateProvider) {
     $stateProvider.state('testeditor', {
         url: '/editTest/:testId',
-        templateUrl: process.cwd() +  '/assets/templates/editTest.html',
+        templateUrl: './assets/templates/editTest.html',
         controller: 'TestEditorCtrl',
         resolve: {
             test: function test($http, $stateParams) {
@@ -381,7 +385,7 @@ app.controller('TestEditorCtrl', function ($scope, test, TestBuilderFactory, $ro
         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
         $mdDialog.show({
             controller: DialogController,
-            templateUrl: process.cwd() +  '/assets/templates/testResults.html',
+            templateUrl: './assets/templates/testResults.html',
             parent: angular.element(document.body),
             //targetEvent: ev,
             clickOutsideToClose: true,
@@ -465,7 +469,7 @@ app.controller('TestEditorCtrl', function ($scope, test, TestBuilderFactory, $ro
 app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/home', //TEST :id and trailing slash
-        templateUrl: process.cwd() +  '/assets/templates/home.html',
+        templateUrl: './assets/templates/home.html',
         controller: 'homeCtrl',
         resolve: {
             user: function user(AuthService) {
@@ -506,7 +510,7 @@ app.config(function ($stateProvider) {
 
     $stateProvider.state('login', {
         url: '/',
-        templateUrl: process.cwd() +  '/assets/templates/login.html',
+        templateUrl: './assets/templates/login.html',
         controller: 'LoginCtrl'
     });
 });
@@ -671,7 +675,7 @@ app.config(function ($stateProvider) {
 
     $stateProvider.state('signup', {
         url: '/signup',
-        templateUrl: process.cwd() +  '/assets/templates/signup.html',
+        templateUrl: './assets/templates/signup.html',
         controller: 'SignupCtrl'
     });
 });
@@ -695,7 +699,7 @@ app.controller('SignupCtrl', function ($scope, AuthService, $state, SignupFactor
 app.config(function ($stateProvider) {
     $stateProvider.state('stackBuilder', {
         url: '/stackbuilder',
-        templateUrl: process.cwd() + '/assets/templates/stackBuilder.html',
+        templateUrl: './assets/templates/stackBuilder.html',
         controller: 'StackBuilderCtrl',
         resolve: {
             user: function user(AuthService) {
@@ -795,7 +799,7 @@ app.controller('StackBuilderCtrl', function ($scope, $state, $log, tests, StackB
 app.config(function ($stateProvider) {
     $stateProvider.state('stackView', {
         url: '/stackView/:stackId',
-        templateUrl: process.cwd() +  '/assets/templates/stackView.html',
+        templateUrl: './assets/templates/stackView.html',
         controller: 'StackViewCtrl',
         resolve: {
             stack: function stack($http, $stateParams) {
@@ -863,7 +867,7 @@ app.controller('StackViewCtrl', function ($scope, $rootScope, $state, $log, stac
 app.config(function ($stateProvider) {
     $stateProvider.state('userspage', {
         url: '/userpage',
-        templateUrl: process.cwd() +  '/assets/templates/userspage.html',
+        templateUrl: './assets/templates/userspage.html',
         // The following data.authenticate is read by an event listener
         // that controls access to this state. Refer to app.js.
         data: {
@@ -949,7 +953,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
     return {
         restrict: 'E',
         scope: {},
-        templateUrl: process.cwd() +  '/assets/templates/navbar.html',
+        templateUrl: './assets/templates/navbar.html',
         link: function link(scope) {
 
             scope.items = [{ label: 'Home', state: 'home' }, { label: 'About', state: 'about' }, { label: 'Documentation', state: 'docs' }, { label: 'Members Only', state: 'membersOnly', auth: true }, { label: 'Add Test', state: 'testbuilder', auth: true }];
@@ -992,7 +996,7 @@ app.directive('stackCard', function () {
         scope: {
             stack: '='
         },
-        templateUrl: process.cwd() +  '/assets/templates/stackCard.html',
+        templateUrl: './assets/templates/stackCard.html',
         controller: 'StackCardCtrl'
     };
 });
@@ -1085,7 +1089,7 @@ app.controller('StackCardCtrl', function ($scope, $rootScope, StackBuilderFactor
 app.directive('sidebar', function () {
     return {
         restrict: 'E',
-        templateUrl: process.cwd() +  '/assets/templates/sidebar.html',
+        templateUrl: './assets/templates/sidebar.html',
         controller: 'sidebarCtrl'
     };
 });
@@ -1119,7 +1123,7 @@ app.controller('sidebarCtrl', function ($scope, $log, $rootScope, StackBuilderFa
 app.config(function ($stateProvider) {
     $stateProvider.state('testbuilder', {
         url: '/testbuilder',
-        templateUrl: process.cwd() +  '/assets/templates/newTest.html',
+        templateUrl: './assets/templates/newTest.html',
         controller: 'TestbuilderCtrl'
     });
 });
@@ -1127,7 +1131,7 @@ app.config(function ($stateProvider) {
 app.directive('testbuilder', function () {
     return {
         restrict: 'E',
-        templateUrl: process.cwd() +  '/assets/templates/testbuilder.html'
+        templateUrl: './assets/templates/testbuilder.html'
     };
 });
 
@@ -1440,7 +1444,7 @@ app.controller('TestbuilderCtrl', function ($scope, $state, TestBuilderFactory, 
         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
         $mdDialog.show({
             controller: DialogController,
-            templateUrl: process.cwd() +  '/assets/templates/testResults.html',
+            templateUrl: './assets/templates/testResults.html',
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose: true,
@@ -1468,7 +1472,7 @@ app.controller('TestbuilderCtrl', function ($scope, $state, TestBuilderFactory, 
 app.directive('validatorEditor', function () {
     return {
         restrict: 'E',
-        templateUrl: process.cwd() +  '/assets/templates/validatorEditor.html',
+        templateUrl: './assets/templates/validatorEditor.html',
         controller: 'ValidatorEditorCtrl'
     };
 });
