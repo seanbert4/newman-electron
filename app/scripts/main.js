@@ -114,8 +114,6 @@ app.run(function ($rootScope, AuthService, $state, $location) {
         return state.data && state.data.authenticate;
     };
 
-    // var d3 = require('path/to/d3.js');
-
     // $stateChangeStart is an event fired
     // whenever the process of changing a state begins.
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
@@ -167,11 +165,6 @@ app.config(function ($stateProvider) {
         }
     });
 });
-
-// app.controller('allTestsCtrl',function($scope, allTests) {
-//     $scope.allTests = allTests;
-// });
-
 
 app.controller('allTestsCtrl', function ($log, $mdEditDialog, $mdDialog, $q, $state, $scope, $timeout, allTests, TestBuilderFactory, AuthService, $http) {
     //allTests injected here
@@ -382,7 +375,6 @@ app.controller('TestEditorCtrl', function ($scope, test, TestBuilderFactory, $ro
             controller: DialogController,
             templateUrl: './assets/templates/testResults.html',
             parent: angular.element(document.body),
-            //targetEvent: ev,
             clickOutsideToClose: true,
             fullscreen: useFullScreen
         });
@@ -461,7 +453,7 @@ app.controller('TestEditorCtrl', function ($scope, test, TestBuilderFactory, $ro
 
 app.config(function ($stateProvider) {
     $stateProvider.state('home', {
-        url: '/home', //TEST :id and trailing slash
+        url: '/home',
         templateUrl: './assets/templates/home.html',
         controller: 'homeCtrl',
         resolve: {
@@ -478,8 +470,6 @@ app.config(function ($stateProvider) {
 app.controller('homeCtrl', function ($scope, user, stacks, $rootScope, StackBuilderFactory, $log) {
     $scope.user = user;
     $scope.stacks = stacks;
-    console.log('user:', user);
-    console.log('stacks:', stacks);
 
     $rootScope.$on('deletestack', function (event, data) {
         $scope.stacks = $scope.stacks.filter(function (ele) {
@@ -521,7 +511,7 @@ app.controller('LoginCtrl', function ($scope, AuthService, $state, $rootScope) {
         AuthService.login(loginInfo).then(function (user) {
             $rootScope.user = user;
             $scope.$evalAsync();
-            $state.go('home'); //TEST {id: user._id}
+            $state.go('home');
         }).catch(function (error) {
             $scope.error = 'Invalid login credentials.';
         });
@@ -592,7 +582,6 @@ app.controller('LoginCtrl', function ($scope, AuthService, $state, $rootScope) {
         };
 
         this.getLoggedInUser = function (fromServer) {
-            console.log('getLoggedInUser was called');
             // If an authenticated session exists, we
             // return the user attached to that session
             // with a promise. This ensures that we can
@@ -605,14 +594,6 @@ app.controller('LoginCtrl', function ($scope, AuthService, $state, $rootScope) {
                 return $q.when(Session.user);
             }
             return Promise.resolve(null);
-            console.log('about to make the /session get request');
-
-            // Make request GET /session.
-            // If it returns a user, call onSuccessfulLogin with the response.
-            // If it returns a 401 response, we catch it and instead resolve to null.
-            return $http.get('https://warm-lowlands-63755.herokuapp.com/session').then(onSuccessfulLogin).catch(function () {
-                return null;
-            });
         };
 
         this.login = function (credentials) {
@@ -1103,7 +1084,6 @@ app.controller('sidebarCtrl', function ($scope, $log, $rootScope, StackBuilderFa
         .then(function (stacks) {
             $scope.stacks = stacks;
             $scope.$evalAsync();
-            console.log('$scope.stacks:', stacks);
         })
         .catch($log.error);
     });
@@ -1345,7 +1325,6 @@ app.controller('TestbuilderCtrl', function ($scope, $state, TestBuilderFactory, 
     $scope.showForm = function () {
         if ($scope.test.params.length === 0) {
             $scope.addForm(0, "params");
-            // $scope.numParams++;
         }
         $scope.showParams = !$scope.showParams;
     };
@@ -1353,7 +1332,6 @@ app.controller('TestbuilderCtrl', function ($scope, $state, TestBuilderFactory, 
     $scope.displayHeaders = function () {
         if ($scope.test.headers.length === 0) {
             $scope.addForm(0, "headers");
-            // $scope.numHeaders++;
         }
         $scope.showHeaders = !$scope.showHeaders;
     };
@@ -1361,7 +1339,6 @@ app.controller('TestbuilderCtrl', function ($scope, $state, TestBuilderFactory, 
     $scope.displayBody = function () {
         if ($scope.test.body.data.length === 0) {
             $scope.addForm(0, "body");
-            // $scope.numBodyObj++;
         }
         $scope.showBody = !$scope.showBody;
     };
