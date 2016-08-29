@@ -12,14 +12,15 @@ let mainWindow;
 
 function createWindow () {
 
-  // Set the dock icon
+  //Set the dock icon
   let icon = nativeImage.createFromPath(`./assets/icon/desktopapp.png`);
   app.dock.setIcon(icon);
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1200,
-    height: 1080
+    height: 1080,
+    minWidth: 1200
   });
 
   // and load the index.html of the app.

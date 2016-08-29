@@ -275,7 +275,8 @@ app.controller('TestEditorCtrl', function ($scope, test, TestBuilderFactory, $ro
     $scope.numHeaders = 0;
     $scope.numBodyObj = 0;
     $scope.addForm = function (index, type) {
-        if (type === 'validator') $scope.test.validators.push({ name: $scope.test.name + (Number($scope.test.validators.length) + 1).toString(), func: "(function(response) {\n\n});" });else if (index === $scope.test[type].length - 1 || $scope.test[type].length === 0 || index === $scope.test[type].data.length - 1 || $scope.test[type].data.length === 0) {
+        if (type === 'validator') $scope.test.validators.push({ name: $scope.test.name + (Number($scope.test.validators.length) + 1).toString(), func: "(function(response) {\n\n});" });
+        else if (index === $scope.test[type].length - 1 || $scope.test[type].length === 0 || (type === 'body' && index === $scope.test[type].data.length - 1) || (type === 'body' && $scope.test[type].data.length === 0)) {
             if (type === "params") {
                 $scope.numParams++;
                 $scope.test.params.push({});
@@ -1088,6 +1089,11 @@ app.controller('sidebarCtrl', function ($scope, $log, $rootScope, StackBuilderFa
         .catch($log.error);
     });
 
+    $rootScope.$on('auth-logout-success', function() {
+        $scope.stacks = [];
+        $scope.$evalAsync();
+    });
+
     $rootScope.$on('createstack', function (event, data) {
         $scope.stacks.push(data);
         $scope.$evalAsync();
@@ -1313,10 +1319,14 @@ app.controller('TestbuilderCtrl', function ($scope, $state, TestBuilderFactory, 
     $scope.isNewTest = true;
     $scope.addForm = function (index, type) {
         if (type !== 'body' && (index === $scope.test[type].length - 1 || $scope.test[type].length === 0)) {
+            console.log('got past the first if statement');
             if (type === "params") $scope.test.params.push({});
             if (type === "headers") $scope.test.headers.push({});
-            if (type === "validators") $scope.test.validators.push({ name: 'validator' + (Number($scope.test.validators.length) + 1).toString(), func: "(function(response) {\n\n});" });
-        } else if (index === $scope.test[type].data.length - 1 || $scope.test[type].data.length === 0) {
+            if (type === "validators") {
+                console.log('$scope.test.validators:', $scope.test.validators);
+                $scope.test.validators.push({ name: 'validator' + (Number($scope.test.validators.length) + 1).toString(), func: "(function(response) {\n\n});" });
+            }
+        } else if (type === 'body' && $scope.test[type].data.length && (index === $scope.test[type].data.length - 1 || $scope.test[type].data.length === 0)) {
             $scope.test.body.data.push({});
         }
         $scope.$evalAsync();
