@@ -478,6 +478,8 @@ app.config(function ($stateProvider) {
 app.controller('homeCtrl', function ($scope, user, stacks, $rootScope, StackBuilderFactory, $log) {
     $scope.user = user;
     $scope.stacks = stacks;
+    console.log('user:', user);
+    console.log('stacks:', stacks);
 
     $rootScope.$on('deletestack', function (event, data) {
         $scope.stacks = $scope.stacks.filter(function (ele) {
@@ -590,7 +592,7 @@ app.controller('LoginCtrl', function ($scope, AuthService, $state, $rootScope) {
         };
 
         this.getLoggedInUser = function (fromServer) {
-
+            console.log('getLoggedInUser was called');
             // If an authenticated session exists, we
             // return the user attached to that session
             // with a promise. This ensures that we can
@@ -602,6 +604,8 @@ app.controller('LoginCtrl', function ($scope, AuthService, $state, $rootScope) {
             if (this.isAuthenticated() && fromServer !== true) {
                 return $q.when(Session.user);
             }
+            return Promise.resolve(null);
+            console.log('about to make the /session get request');
 
             // Make request GET /session.
             // If it returns a user, call onSuccessfulLogin with the response.
@@ -1089,15 +1093,20 @@ app.directive('sidebar', function () {
 
 app.controller('sidebarCtrl', function ($scope, $log, $rootScope, StackBuilderFactory, AuthService) {
 
-    AuthService.getLoggedInUser().then(function (user) {
-        $scope.user = user;
-    });
-
-    if ($scope.user) {
-        StackBuilderFactory.getUserStacks($scope.user).then(function (stacks) {
+    $rootScope.$on('auth-login-success', function() {
+        AuthService.getLoggedInUser()
+        .then(function (user) {
+            $scope.user = user;
+            return user;
+        })
+        .then(user => StackBuilderFactory.getUserStacks(user))
+        .then(function (stacks) {
             $scope.stacks = stacks;
-        });
-    }
+            $scope.$evalAsync();
+            console.log('$scope.stacks:', stacks);
+        })
+        .catch($log.error);
+    });
 
     $rootScope.$on('createstack', function (event, data) {
         $scope.stacks.push(data);
